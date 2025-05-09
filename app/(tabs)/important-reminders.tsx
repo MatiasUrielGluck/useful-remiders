@@ -1,9 +1,9 @@
 import {SafeAreaView, StyleSheet} from 'react-native';
 
-export default function HomeScreen() {
+export default function ImportantRemindersScreen() {
   return (
     <SafeAreaView style={styles.container}>
-      
+
     </SafeAreaView>
   );
 }
