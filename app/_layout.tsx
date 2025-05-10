@@ -7,6 +7,11 @@ import {useEffect} from 'react';
 import 'react-native-reanimated';
 
 import {useColorScheme} from '@/components/useColorScheme';
+import {SQLiteProvider} from "expo-sqlite";
+import {SQLiteConfig} from "@/config/SQLiteConfig";
+import {executeMigrations} from "@/database/sqlite/migrations/MigrationsMiddleware";
+import {ReactNativePaperThemeProvider} from "@/components/ReactNativePaperThemeProvider";
+import DependencyInjectionContainer from "@/dependency-injection";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -48,11 +53,28 @@ export default function RootLayout() {
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
+  const onInit = async () => {
+    console.log('Database Setup')
+    await executeMigrations();
+  }
+
+  useEffect(() => {
+    const initDIContainer = async () => {
+      await DependencyInjectionContainer.instance.initialize();
+    }
+
+    initDIContainer();
+  }, []);
+
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{headerShown: false}}/>
-      </Stack>
-    </ThemeProvider>
+    <SQLiteProvider databaseName={SQLiteConfig.databaseName} onInit={onInit}>
+      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        <ReactNativePaperThemeProvider>
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{headerShown: false}}/>
+          </Stack>
+        </ReactNativePaperThemeProvider>
+      </ThemeProvider>
+    </SQLiteProvider>
   );
 }
