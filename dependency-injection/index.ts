@@ -28,7 +28,10 @@ export default class DependencyInjectionContainer {
   }
 
   public async initialize() {
+    // Path to the database file: /data/data/host.exp.exponent/files/SQLite/reminders.db
     this._db = await SQLite.openDatabaseAsync(SQLiteConfig.databaseName);
+
+    // Reminder Dependencies
     this._reminderRepository = new ReminderRepository(this._db);
     this._reminderService = new ReminderService(this._reminderRepository)
   }
