@@ -28,6 +28,7 @@ export default class DependencyInjectionContainer {
   }
 
   public async initialize() {
+    console.log("Initializing Dependency Injection Container...");
     // Path to the database file: /data/data/host.exp.exponent/files/SQLite/reminders.db
     this._db = await SQLite.openDatabaseAsync(SQLiteConfig.databaseName);
 

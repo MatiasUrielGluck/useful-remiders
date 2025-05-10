@@ -3,10 +3,10 @@ import {TextInput, Button, Text} from "react-native-paper";
 import {SetStateAction, useState} from "react";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import ReminderEntity from "@/database/sqlite/entity/ReminderEntity";
-import DependencyInjectionContainer from "@/dependency-injection";
+import {useDependencyInjection} from "@/hooks/useDependencyInjection";
 
 export default function CreateReminderScreen() {
-  const diContainer = DependencyInjectionContainer.instance;
+  const {diContainer} = useDependencyInjection();
 
   const [title, setTitle] = useState<string>("")
   const [description, setDescription] = useState<string>("")
